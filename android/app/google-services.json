@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "789909392459",
+    "project_id": "cse3mad-team-all-rounders",
+    "storage_bucket": "cse3mad-team-all-rounders.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:789909392459:android:caef859798d4ec041dd1ce",
+        "android_client_info": {
+          "package_name": "com.example.ryde"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "789909392459-0dc6mj511i4i08cc3c3dcpd5sgsg5c4r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ryde",
+            "certificate_hash": "bf9354f5e1e054aa4e00a473c170fa363a119292"
+          }
+        },
+        {
+          "client_id": "789909392459-072a8pjitdkn80d7tclmmum7vbolf9qb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtCXevmoGEkYtG2iDv6lEI_lCmgF1gmfg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "789909392459-072a8pjitdkn80d7tclmmum7vbolf9qb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "789909392459-7cv1vqvpc8r2hlsjtts6uta1313o23g1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rydeflutter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:789909392459:android:55945b791445f8ab1dd1ce",
+        "android_client_info": {
+          "package_name": "com.example.rydeflutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "789909392459-072a8pjitdkn80d7tclmmum7vbolf9qb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtCXevmoGEkYtG2iDv6lEI_lCmgF1gmfg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "789909392459-072a8pjitdkn80d7tclmmum7vbolf9qb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "789909392459-7cv1vqvpc8r2hlsjtts6uta1313o23g1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rydeflutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
