@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rydeflutter/colors.dart';
 import 'firebase_options.dart';
+
 
 
 
@@ -10,11 +13,36 @@ void main() {
   Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  static const colors = AppColors(); 
+final CameraPosition _kInitialPosition = const CameraPosition(
+  target: LatLng(-33.8523301, 151.2106068),
+  zoom: 11.0,
+);
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('My Google Map'),
+        ),
+        body: GoogleMap(
+          initialCameraPosition: _kInitialPosition,
+        ),
+      ),
+    );
+  }
+}
+
+/*class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
@@ -132,4 +160,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-}
+} */
