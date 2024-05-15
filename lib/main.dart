@@ -1,44 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-// run the following command to load the google map library
-// "flutter pub add google_maps_flutter"
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart'; 
+import 'sign_up.dart'; 
 
-
-void main() => runApp(const MyApp());
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
 }
 
-class _MyAppState extends State<MyApp> {
-  late GoogleMapController mapController;
-
-  final LatLng _center = const LatLng(-33.86, 151.20);// sydney change to latrobe
-  //LatLng? _currentPosition;
-
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Ryde Map'),
-          backgroundColor: Colors.green[700],
-        ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          ),
-        ),
+      title: 'Your App Title',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      home: SignUpPage(),
     );
   }
 }
