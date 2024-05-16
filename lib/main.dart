@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart'; 
 import 'sign_up.dart'; 
+import 'map_view_main.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SignUpPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => SignUpPage(),
+        '/map': (context) => MapViewMain(), 
+      },
     );
   }
 }

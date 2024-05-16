@@ -28,11 +28,13 @@ class _SignUpPageState extends State<SignUpPage> {
           email: _emailController.text,
           password: _passwordController.text,
         );
-        // Navigate to the next screen (e.g., home page)
+        Navigator.pushNamed(context, '/map'); 
       } on FirebaseAuthException catch (e) {
-        // Handle Firebase Auth errors (e.g., weak password, email in use)
         print('Error creating account: ${e.message}');
-        // Show error message to the user
+        // Show an error message to the user
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${e.message}')),
+        );
       }
     }
   }
@@ -46,11 +48,17 @@ class _SignUpPageState extends State<SignUpPage> {
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
-        return await FirebaseAuth.instance.signInWithCredential(credential);
+        final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+        Navigator.pushNamed(context, '/map');
+        return userCredential; 
       }
     } catch (e) {
       print('Error signing in with Google: $e');
-      // Show error message to the user
+      // Show an error message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
     }
     return null;
   }
@@ -115,7 +123,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Text('Sign Up'),
               ),
               TextButton(
-                onPressed: () {
+                onPressed: () { 
                   // Navigate to the login page (implementation not shown)
                 },
                 child: Text('Already have a Login? Log In'),
@@ -127,3 +135,4 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 }
+
