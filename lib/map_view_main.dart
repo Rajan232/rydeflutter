@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'colors.dart';
 
 class MapViewMain extends StatefulWidget {
   @override
   _MapViewMainState createState() => _MapViewMainState();
 }
+
+const appcolour = AppColors();
 
 class _MapViewMainState extends State<MapViewMain> {
   late GoogleMapController mapController;

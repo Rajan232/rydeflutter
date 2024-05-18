@@ -1,5 +1,7 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'colors.dart';
 
@@ -73,7 +75,7 @@ class _SignUpPageState extends State<SignUpPage> {
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.all(50.0),
+          padding: const EdgeInsets.all(40.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -81,7 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 width: 350,
                 child: Text('Sign Up', style: TextStyle(fontSize: 65, color: appcolour.accentGreen, fontFamily: 'Ubuntu', fontWeight: FontWeight.w600,),textAlign: TextAlign.left,)
               ),
-              const SizedBox(height: 40),
+              Flexible(child: SizedBox(height: 40)),
               SizedBox(
                 width: 350,
                 height: 60,
@@ -94,7 +96,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: _signInWithGoogle,
                 child: const Text('Sign in using Google', style: TextStyle(fontSize: 20, color: Color(0xFF222222)),),
               ),),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder(),),
@@ -108,10 +110,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password', border: OutlineInputBorder(),),
+                decoration: InputDecoration(labelText: 'Password', border: OutlineInputBorder(borderSide: BorderSide(color: appcolour.primaryGreen)),),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -123,7 +125,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _confirmPasswordController,
                 decoration: const InputDecoration(labelText: 'Confirm Password', border: OutlineInputBorder(),),
@@ -135,24 +137,38 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 45),
+              Flexible(flex: 2,child: SizedBox(height: 35),),
               SizedBox(
-                width: 350,                
+                width: 360,                
                 child: Align(alignment: Alignment.centerLeft,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(160, 60),
-                    backgroundColor: appcolour.primaryGreen,
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    minimumSize: const ui.Size(160, 60),
+                    backgroundColor: appcolour.accentGreen,
                   ),
                 onPressed: _signUp,
                 child: Text('Sign Up', style: TextStyle(fontSize: 21, color: appcolour.darkGrey),),
               ),)),
-              TextButton(
-                onPressed: () { 
+              Flexible(child: SizedBox(height: 20,),),
+              const SizedBox(
+                width: 335,
+                child:Text('Already Signed Up?', style: TextStyle(fontSize: 17, color: Colors.white, fontFamily: 'Ubuntu', fontWeight: FontWeight.w400,),textAlign: TextAlign.left,))
+              ,
+              Flexible(child: SizedBox(height: 20,),),
+              SizedBox(
+                child: Align(alignment: Alignment.centerLeft,
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    minimumSize: const ui.Size(140, 50),
+                    backgroundColor: appcolour.primaryGreen,
+                  ),
+                   onPressed: () { 
                   // Navigate to the login page (implementation not shown)
                 },
-                child: const Text('Already have a Login? Log In'),
-              ),
+                child: Text('Log In', style: TextStyle(fontSize: 16, color: appcolour.darkGrey),),
+                ),),
+                )
+              
             ],
           ),
         ),
