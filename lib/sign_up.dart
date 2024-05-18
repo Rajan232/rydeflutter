@@ -79,17 +79,22 @@ class _SignUpPageState extends State<SignUpPage> {
             children: [
               SizedBox(
                 width: 350,
+                child: Text('Sign Up', style: TextStyle(fontSize: 65, color: appcolour.accentGreen, fontFamily: 'Ubuntu', fontWeight: FontWeight.w600,),textAlign: TextAlign.left,)
+              ),
+              const SizedBox(height: 40),
+              SizedBox(
+                width: 350,
                 height: 60,
                 child: FilledButton(
                   style: FilledButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),    
-                  ),
+                  ), backgroundColor: appcolour.lightGrey,
                   ),
                 onPressed: _signInWithGoogle,
-                child: const Text('Sign in using Google'), 
+                child: const Text('Sign in using Google', style: TextStyle(fontSize: 20, color: Color(0xFF222222)),),
               ),),
-              const SizedBox(height: 30),
+              const SizedBox(height: 50),
               TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder(),),
@@ -103,7 +108,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 30),
               TextFormField(
                 controller: _passwordController,
                 decoration: const InputDecoration(labelText: 'Password', border: OutlineInputBorder(),),
@@ -118,7 +123,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 30),
               TextFormField(
                 controller: _confirmPasswordController,
                 decoration: const InputDecoration(labelText: 'Confirm Password', border: OutlineInputBorder(),),
@@ -130,11 +135,18 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
+              const SizedBox(height: 45),
+              SizedBox(
+                width: 350,                
+                child: Align(alignment: Alignment.centerLeft,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(160, 60),
+                    backgroundColor: appcolour.primaryGreen,
+                  ),
                 onPressed: _signUp,
-                child: const Text('Sign Up'),
-              ),
+                child: Text('Sign Up', style: TextStyle(fontSize: 21, color: appcolour.darkGrey),),
+              ),)),
               TextButton(
                 onPressed: () { 
                   // Navigate to the login page (implementation not shown)
