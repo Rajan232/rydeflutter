@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'colors.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
+
+const appcolour = AppColors();
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
@@ -66,22 +69,30 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Sign Up')),
+      backgroundColor: appcolour.darkGrey,
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(50.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
+              SizedBox(
+                width: 350,
+                height: 60,
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),    
+                  ),
+                  ),
                 onPressed: _signInWithGoogle,
-                child: Text('Sign in using Google'),
-              ),
-              SizedBox(height: 20),
+                child: const Text('Sign in using Google'), 
+              ),),
+              const SizedBox(height: 30),
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder(),),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your email';
@@ -92,9 +103,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(labelText: 'Password', border: OutlineInputBorder(),),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -106,9 +118,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _confirmPasswordController,
-                decoration: InputDecoration(labelText: 'Confirm Password'),
+                decoration: const InputDecoration(labelText: 'Confirm Password', border: OutlineInputBorder(),),
                 obscureText: true,
                 validator: (value) {
                   if (value != _passwordController.text) {
@@ -117,16 +130,16 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _signUp,
-                child: Text('Sign Up'),
+                child: const Text('Sign Up'),
               ),
               TextButton(
                 onPressed: () { 
                   // Navigate to the login page (implementation not shown)
                 },
-                child: Text('Already have a Login? Log In'),
+                child: const Text('Already have a Login? Log In'),
               ),
             ],
           ),
