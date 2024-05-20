@@ -207,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
       print('Location permission denied');
       // Show a dialog or message explaining why the permission is needed
     } 
-                  Navigator.pushNamed(context, '/');// Navigate to the login page (implementation not shown)
+                  Navigator.pushNamed(context, '/signUp');// Navigate to the login page (implementation not shown)
                 },
                 child: Text('Sign Up', style: TextStyle(fontSize: 16, color: appcolour.darkGrey),),
                 ),),
