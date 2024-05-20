@@ -1,42 +1,68 @@
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'colors.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class SignUpPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
 const appcolour = AppColors();
 
-class _SignUpPageState extends State<SignUpPage> {
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _confirmPasswordController.dispose();
     super.dispose();
   }
+  
+  Future<bool> _requestPermission(Permission permission) async {
+  var status = await permission.status;
 
-  Future<void> _signUp() async {
+  if (status.isGranted) {
+    // Permission is already granted
+    return true;
+  } else if (status.isDenied) {
+    // Ask for permission
+    if (await permission.request().isGranted) {
+      // Permission granted after asking
+      return true;
+    } else {
+      // Permission denied after asking
+      return false;
+    }
+  } else if (status.isPermanentlyDenied) {
+    // Permission permanently denied. Open app settings for the user to change.
+    openAppSettings();
+    return false;
+  }
+
+  // Handle other cases (e.g., restricted) if needed
+  return false;
+}
+
+
+  Future<void> _signInWithEmailAndPassword() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
+        // Navigate to the map view after successful login:
         Navigator.pushNamed(context, '/map'); 
       } on FirebaseAuthException catch (e) {
-        print('Error creating account: ${e.message}');
+        print('Error logging in: ${e.message}');
         // Show an error message to the user
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${e.message}')),
@@ -56,8 +82,9 @@ class _SignUpPageState extends State<SignUpPage> {
         );
         final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
 
-        Navigator.pushNamed(context, '/map');
-        return userCredential; 
+        // Navigate to the map view after successful login with Google:
+        Navigator.pushNamed(context, '/map'); 
+        return userCredential;
       }
     } catch (e) {
       print('Error signing in with Google: $e');
@@ -73,25 +100,20 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: appcolour.darkGrey,
-      body: Form(
-        key: _formKey,
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(40.0),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
+          child: Form(
+            key: _formKey,
             child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 120),
-              SizedBox(
-                width: 350,
-                child: Text('Sign Up', style: TextStyle(fontSize: 65, color: appcolour.accentGreen, fontFamily: 'Ubuntu', fontWeight: FontWeight.w600,),textAlign: TextAlign.left,)
-              ),
-              const SizedBox(height: 40),
-              SizedBox(
-                width: 370,
-                height: 60,
-                child: FilledButton(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 150),
+                SizedBox(width: 350, child: Text('Log In', style: TextStyle(fontSize: 65, fontFamily: 'Ubuntu', color: appcolour.accentGreen, fontWeight: FontWeight.w600), textAlign: TextAlign.left,),),
+                // Login UI (similar to SignUpPage, but with login fields and button)
+                const SizedBox(height: 40),
+                SizedBox(width: 370, height: 60, child: FilledButton(
                   style: FilledButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),    
@@ -106,10 +128,11 @@ class _SignUpPageState extends State<SignUpPage> {
                     const Text('Sign in using Google', style: TextStyle(fontFamily: 'RobotoMono', fontSize: 20, fontWeight: ui.FontWeight.w500, color: Color(0xFF222222)),),
                   ],
                 ),
-              ),),
-              const SizedBox(height: 30),
-              TextFormField(
-                controller: _emailController,
+                ),), //Google Sign In Button
+                
+                const SizedBox(height: 30), 
+                TextFormField(
+                  controller: _emailController,
                 decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder(),),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -120,10 +143,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   }
                   return null;
                 },
-              ),
-              const SizedBox(height: 30),
-              TextFormField(
-                controller: _passwordController,
+                ),
+                const SizedBox(height: 30), 
+                TextFormField(
+                  controller: _passwordController,
                 decoration: InputDecoration(labelText: 'Password', border: OutlineInputBorder(borderSide: BorderSide(color: appcolour.primaryGreen)),),
                 obscureText: true,
                 validator: (value) {
@@ -134,61 +157,52 @@ class _SignUpPageState extends State<SignUpPage> {
                     return 'Password must be at least 6 characters';
                   }
                   return null;
-                },
-              ),
-              const SizedBox(height: 30),
-              TextFormField(
-                controller: _confirmPasswordController,
-                style: TextStyle(color: appcolour.mutedGreen),
-                decoration: InputDecoration(labelText: 'Confirm Password', border: OutlineInputBorder(borderSide: BorderSide(color: appcolour.lightGrey),),
-                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: appcolour.accentGreen),),
-                errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red),),),
-                obscureText: true,
-                validator: (value) {
-                  if (value != _passwordController.text) {
-                    return 'Passwords do not match';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 35),
-              SizedBox(
-                width: 360,                
-                child: Align(alignment: Alignment.centerLeft,
-                child: FilledButton(
-                  style: FilledButton.styleFrom(
-                    minimumSize: const ui.Size(160, 60),
-                    backgroundColor: appcolour.accentGreen,
-                  ),
-                onPressed: _signUp,
-                child: Text('Sign Up', style: TextStyle(fontSize: 21, color: appcolour.darkGrey),),
-              ),)),
-              const SizedBox(height: 20,),
-              const SizedBox(
-                width: 335,
-                child:Text('Already Signed Up?', style: TextStyle(fontSize: 17, color: Colors.white, fontFamily: 'Ubuntu', fontWeight: FontWeight.w400,),textAlign: TextAlign.left,))
-              ,
-              const SizedBox(height: 20,),
-              SizedBox(
+                },// ... (password field)
+                ),
+                const SizedBox(height: 35),
+                SizedBox(
+                  width: 360,
+                  child: Align(alignment: Alignment.centerLeft,
+                  child: FilledButton(
+                    style: FilledButton.styleFrom(
+                      minimumSize:  const ui.Size(160, 60),
+                      backgroundColor: appcolour.accentGreen,
+                    ),
+                  onPressed: _signInWithEmailAndPassword,
+                  child: Text('Log In', style: TextStyle(fontSize: 21, color: appcolour.darkGrey),),
+                ),),),
+                const SizedBox(height: 30),
+                const SizedBox(width: 335,
+                child: Text('Don\'t have an account?', style: TextStyle(fontSize: 18, color: Colors.white),),),
+                const SizedBox(height: 20),
+                SizedBox(
                 child: Align(alignment: Alignment.centerLeft,
                 child: FilledButton(
                   style: FilledButton.styleFrom(
                     minimumSize: const ui.Size(140, 50),
                     backgroundColor: appcolour.primaryGreen,
                   ),
-                   onPressed: () { 
-                  Navigator.pushNamed(context, '/login');// Navigate to the login page (implementation not shown)
+                   onPressed: () async {
+                    if (await _requestPermission(Permission.location)) {
+      // Permission granted. Proceed with location-related actions.
+      print('Location permission granted');
+
+      // ... your location-related code ...
+    } else {
+      // Permission denied. Handle this gracefully.
+      print('Location permission denied');
+      // Show a dialog or message explaining why the permission is needed
+    } 
+                  Navigator.pushNamed(context, '/');// Navigate to the login page (implementation not shown)
                 },
-                child: Text('Log In', style: TextStyle(fontSize: 16, color: appcolour.darkGrey),),
+                child: Text('Sign Up', style: TextStyle(fontSize: 16, color: appcolour.darkGrey),),
                 ),),
                 )
-              
-            ],
-          ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
-
