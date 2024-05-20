@@ -132,7 +132,8 @@ class _LoginPageState extends State<LoginPage> {
                 
                 const SizedBox(height: 30), 
                 TextFormField(
-                  controller: _emailController,
+                style: TextStyle(color: appcolour.accentGreen),
+                controller: _emailController,
                 decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder(),),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -146,7 +147,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 30), 
                 TextFormField(
-                  controller: _passwordController,
+                style: TextStyle(color: appcolour.accentGreen),
+                controller: _passwordController,
                 decoration: InputDecoration(labelText: 'Password', border: OutlineInputBorder(borderSide: BorderSide(color: appcolour.primaryGreen)),),
                 obscureText: true,
                 validator: (value) {
@@ -168,7 +170,19 @@ class _LoginPageState extends State<LoginPage> {
                       minimumSize:  const ui.Size(160, 60),
                       backgroundColor: appcolour.accentGreen,
                     ),
-                  onPressed: _signInWithEmailAndPassword,
+                  onPressed: () async{
+                    if (await _requestPermission(Permission.location)) {
+      // Permission granted. Proceed with location-related actions.
+                      print('Location permission granted');
+
+      // ... your location-related code ...
+                    } else {
+      // Permission denied. Handle this gracefully.
+                           print('Location permission denied');
+      // Show a dialog or message explaining why the permission is needed
+                    }
+                    _signInWithEmailAndPassword();
+                  },
                   child: Text('Log In', style: TextStyle(fontSize: 21, color: appcolour.darkGrey),),
                 ),),),
                 const SizedBox(height: 30),
