@@ -41,6 +41,7 @@ dependencies:
   google_sign_in: ^6.2.1
   flutter_native_splash: ^2.4.0
   permission_handler: ^10.4.3
+  flutter_launcher_icons: "^0.13.1"
 
 dev_dependencies:
   flutter_test:
@@ -239,3 +240,8 @@ flutter_native_splash:
   #info_plist_files:
   #  - 'ios/Runner/Info-Debug.plist'
   #  - 'ios/Runner/Info-Release.plist'
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/rydeLogo.png"
+  min_sdk_android: 31

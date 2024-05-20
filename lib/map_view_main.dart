@@ -53,12 +53,12 @@ class _MapViewMainState extends State<MapViewMain> with WidgetsBindingObserver {
                                   user!.providerData[0].providerId == 'google.com'
                               ? NetworkImage(user!.photoURL ?? '') // Google photo if available
                               : null, // No image if not Google sign-in
-                          backgroundColor: Colors.grey, // Background color for generic icon
+                          backgroundColor: Colors.grey, // Generic user icon
+                          radius: 25, // Background color for generic icon
                           child: user != null && user!.providerData.isNotEmpty &&
                                   user!.providerData[0].providerId == 'google.com'
                               ? null // No child if Google photo is available
-                              : Icon(Icons.person, color: Colors.white), // Generic user icon
-                          radius: 25,
+                              : const Icon(Icons.person, color: Colors.white),
                         ),
                       ),
                     ],
