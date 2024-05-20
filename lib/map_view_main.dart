@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -34,8 +33,19 @@ class _MapViewMainState extends State<MapViewMain> with WidgetsBindingObserver {
                   return Stack(
                     children: [
                       GoogleMap(
-                        onMapCreated: (GoogleMapController controller) {
+                        onMapCreated: (GoogleMapController controller) async {
                           _controller.complete(controller);
+
+                          try {
+                            final String mapStyle =
+                                await DefaultAssetBundle.of(context)
+                                    .loadString('assets/map_style.json');
+                            controller.setMapStyle(mapStyle);
+                          } catch (e) {
+                            print("Error loading map style: $e");
+                          }
+                          // Remove the extra closing curly brace and square bracket
+                          // };
                         },
                         initialCameraPosition: CameraPosition(
                           target: _center,
@@ -43,20 +53,27 @@ class _MapViewMainState extends State<MapViewMain> with WidgetsBindingObserver {
                         ),
                         myLocationEnabled: true,
                         myLocationButtonEnabled: false,
+                        zoomControlsEnabled: false,
                       ),
                       // Profile Photo or User Icon Widget
                       Positioned(
                         top: 16.0, // Adjust position as needed
                         right: 16.0,
                         child: CircleAvatar(
-                          backgroundImage: user != null && user!.providerData.isNotEmpty &&
-                                  user!.providerData[0].providerId == 'google.com'
-                              ? NetworkImage(user!.photoURL ?? '') // Google photo if available
+                          backgroundImage: user != null &&
+                                  user!.providerData.isNotEmpty &&
+                                  user!.providerData[0].providerId ==
+                                      'google.com'
+                              ? NetworkImage(user!.photoURL ??
+                                  '') // Google photo if available
                               : null, // No image if not Google sign-in
-                          backgroundColor: Colors.grey, // Generic user icon
+                          backgroundColor:
+                              Colors.grey[800], // Generic user icon
                           radius: 25, // Background color for generic icon
-                          child: user != null && user!.providerData.isNotEmpty &&
-                                  user!.providerData[0].providerId == 'google.com'
+                          child: user != null &&
+                                  user!.providerData.isNotEmpty &&
+                                  user!.providerData[0].providerId ==
+                                      'google.com'
                               ? null // No child if Google photo is available
                               : const Icon(Icons.person, color: Colors.white),
                         ),
