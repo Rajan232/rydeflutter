@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rydeflutter/colors.dart';
+import 'package:rydeflutter/settings_menu.dart';
 
 class MapViewMain extends StatefulWidget {
   @override
@@ -59,7 +60,17 @@ class _MapViewMainState extends State<MapViewMain> with WidgetsBindingObserver {
                       Positioned(
                         top: 16.0, // Adjust position as needed
                         right: 16.0,
-                        child: CircleAvatar(
+                        child: GestureDetector(
+                        onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SettingsMenu(),
+                          ),
+                        );
+                      },
+
+                      child: Hero(tag: SettingsMenu.heroTag, child: CircleAvatar(
                           backgroundImage: user != null &&
                                   user!.providerData.isNotEmpty &&
                                   user!.providerData[0].providerId ==
@@ -76,7 +87,9 @@ class _MapViewMainState extends State<MapViewMain> with WidgetsBindingObserver {
                                       'google.com'
                               ? null // No child if Google photo is available
                               : const Icon(Icons.person, color: Colors.white),
-                        ),
+                        ),),
+                        
+                    ),
                       ),
                     ],
                   );

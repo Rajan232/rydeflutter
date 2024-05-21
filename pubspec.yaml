@@ -42,8 +42,10 @@ dependencies:
   flutter_native_splash: ^2.4.0
   permission_handler: ^10.4.3
   flutter_launcher_icons: "^0.13.1"
-  google_maps_flutter_android: ^2.8.0
-  google_maps_flutter_platform_interface: ^2.6.0
+  flutter_google_places_sdk: ^0.3.9  # Or the latest version
+  cloud_firestore: ^4.1.0 
+  image_picker: ^1.1.1
+  firebase_storage: ^11.7.5
 
 dev_dependencies:
   flutter_test:
